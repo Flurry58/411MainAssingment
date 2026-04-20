@@ -111,3 +111,7 @@ pub fn dis(inst: Umi, counter: u32, ram: &mut RamMem) -> u32 {
         None => u32::MAX, //End
     }
 }
+
+fn CMov(reg_a: usize, reg_b: usize, reg_c: usize, counter: u32) -> u32 {
+    counter + 1
+}
