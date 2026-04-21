@@ -1,5 +1,5 @@
 use crate::memory::RamMem;
-
+// logan im killing u
 // Only put mathematical Operations here no operation here will edit the program
 // counter in ANY WAY
 
