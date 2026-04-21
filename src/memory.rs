@@ -80,7 +80,7 @@ impl RamMem {
         self.generate_new_address_space();
 
         let address: u32 = self.address_space.pop_first().unwrap();
-        println!("New Address Allocated: {}", address); //DEBUG
+        //println!("New Address Allocated: {}", address); //DEBUG
 
         let words = vec![0u32; self.reg_list[reg_c] as usize];
         self.memory_store.insert(address, words);
@@ -94,7 +94,7 @@ impl RamMem {
         }
         let segment_id = &self.reg_list[reg_c];
         if let Some((key, _)) = self.memory_store.remove_entry(segment_id) {
-            println!("{:?}", self.address_space); //DEBUG
+            //println!("{:?}", self.address_space); //DEBUG
             self.address_space.insert(key);
         } else {
             return u32::MAX;

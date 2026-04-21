@@ -1,4 +1,5 @@
-use crate::input_output;
+use crate::input_output::output;
+use crate::input_output::{self, input};
 use crate::math_core;
 use crate::memory::RamMem;
 use bitpack;
@@ -75,12 +76,12 @@ pub fn run_program(inst_list: Vec<u32>) {
 // Returns program counter, this may change if jumped which is why it needs to return it
 // It may return -1 if it encountered a halt or unkown instruction which will instantly end the program
 pub fn dis(inst: Umi, counter: u32, ram: &mut RamMem) -> u32 {
-    println!(
-        "counter: {} | inst: {:#034b} | op: {:?}",
-        counter,
-        inst,
-        op(inst)
-    );
+    // println!(
+    //     "counter: {} | inst: {:#034b} | op: {:?}",
+    //     counter,
+    //     inst,
+    //     op(inst)
+    // );
     match op(inst) {
         Some(Opcode::CMov) => CMov(
             ram,
@@ -108,8 +109,8 @@ pub fn dis(inst: Umi, counter: u32, ram: &mut RamMem) -> u32 {
         Some(Opcode::Halt) => u32::MAX, //End
         Some(Opcode::MapSeg) => ram.map(get(&RC, inst) as usize, get(&RB, inst) as usize, counter),
         Some(Opcode::UnMap) => ram.unmap(get(&RC, inst) as usize, counter),
-        Some(Opcode::Output) => counter + 1,
-        Some(Opcode::Input) => counter + 1,
+        Some(Opcode::Output) => output(ram, get(&RC, inst) as usize, counter),
+        Some(Opcode::Input) => input(ram, get(&RC, inst) as usize, counter),
         Some(Opcode::LoadProgram) => {
             ram.load_program(get(&RB, inst) as usize, get(&RC, inst) as usize, counter)
         }
