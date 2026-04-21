@@ -5,17 +5,21 @@ use crate::memory::RamMem;
 
 pub fn Add(ram: &mut RamMem, reg_a: usize, reg_b: usize, reg_c: usize, counter: u32) -> u32 {
     counter + 1
+    reg_a = reg_b + reg_c
 }
 
 pub fn Mult(ram: &mut RamMem, reg_a: usize, reg_b: usize, reg_c: usize, counter: u32) -> u32 {
     counter + 1
+    reg_a = reg_b * reg_c
 }
 
 pub fn Div(ram: &mut RamMem, reg_a: usize, reg_b: usize, reg_c: usize, counter: u32) -> u32 {
     counter + 1
+    reg_a = reg_b / reg_c
 }
 
 // Bitwise And
 pub fn Btand(ram: &mut RamMem, reg_a: usize, reg_b: usize, reg_c: usize, counter: u32) -> u32 {
     counter + 1
+    reg_a = reg_b & reg_c
 }
