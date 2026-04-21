@@ -82,7 +82,13 @@ pub fn dis(inst: Umi, counter: u32, ram: &mut RamMem) -> u32 {
         op(inst)
     );
     match op(inst) {
-        Some(Opcode::CMov) => counter + 1,
+        Some(Opcode::CMov) => CMov(
+            ram,
+            get(&RA, inst) as usize,
+            get(&RB, inst) as usize,
+            get(&RC, inst) as usize,
+            counter,
+        ),
         Some(Opcode::Load) => ram.load(
             get(&RA, inst) as usize,
             get(&RB, inst) as usize,
@@ -112,6 +118,9 @@ pub fn dis(inst: Umi, counter: u32, ram: &mut RamMem) -> u32 {
     }
 }
 
-fn CMov(reg_a: usize, reg_b: usize, reg_c: usize, counter: u32) -> u32 {
+fn CMov(ram: &mut RamMem, reg_a: usize, reg_b: usize, reg_c: usize, counter: u32) -> u32 {
+    if ram.reg_list[reg_c] != 0 {
+        ram.reg_list[reg_a] = ram.reg_list[reg_b];
+    }
     counter + 1
 }

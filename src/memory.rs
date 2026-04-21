@@ -2,7 +2,7 @@ use std::collections::BTreeSet;
 use std::collections::HashMap;
 
 pub struct RamMem {
-    reg_list: Vec<u32>,
+    pub reg_list: Vec<u32>,
     address_space: BTreeSet<u32>,
     current_address_max: u32,
     memory_store: HashMap<u32, Vec<u32>>,
