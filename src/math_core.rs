@@ -4,22 +4,22 @@ use crate::memory::RamMem;
 // counter in ANY WAY
 
 pub fn Add(ram: &mut RamMem, reg_a: usize, reg_b: usize, reg_c: usize, counter: u32) -> u32 {
+    ram.reg_list[reg_a] = ram.reg_list[reg_b] + ram.reg_list[reg_c];
     counter + 1
-    reg_a = reg_b + reg_c
 }
 
 pub fn Mult(ram: &mut RamMem, reg_a: usize, reg_b: usize, reg_c: usize, counter: u32) -> u32 {
+    ram.reg_list[reg_a] = ram.reg_list[reg_b] * ram.reg_list[reg_c];
     counter + 1
-    reg_a = reg_b * reg_c
 }
 
 pub fn Div(ram: &mut RamMem, reg_a: usize, reg_b: usize, reg_c: usize, counter: u32) -> u32 {
+    ram.reg_list[reg_a] = ram.reg_list[reg_b] / ram.reg_list[reg_c];
     counter + 1
-    reg_a = reg_b / reg_c
 }
 
 // Bitwise And
 pub fn Btand(ram: &mut RamMem, reg_a: usize, reg_b: usize, reg_c: usize, counter: u32) -> u32 {
+    ram.reg_list[reg_a] = ram.reg_list[reg_b] & ram.reg_list[reg_c];
     counter + 1
-    reg_a = reg_b & reg_c
 }
