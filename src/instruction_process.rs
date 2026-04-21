@@ -1,3 +1,5 @@
+use std::ops::Mul;
+
 use crate::input_output::output;
 use crate::input_output::{self, input};
 use crate::math_core::{Add, Btand, Div, Mult};
@@ -102,9 +104,27 @@ pub fn dis(inst: Umi, counter: u32, ram: &mut RamMem) -> u32 {
             get(&RC, inst) as usize,
             counter,
         ),
-        Some(Opcode::Mult) => counter + 1,
-        Some(Opcode::Div) => counter + 1,
-        Some(Opcode::BitNAND) => counter + 1,
+        Some(Opcode::Mult) => Mult(
+            ram,
+            get(&RA, inst) as usize,
+            get(&RB, inst) as usize,
+            get(&RC, inst) as usize,
+            counter,
+        ),
+        Some(Opcode::Div) => Div(
+            ram,
+            get(&RA, inst) as usize,
+            get(&RB, inst) as usize,
+            get(&RC, inst) as usize,
+            counter,
+        ),
+        Some(Opcode::BitNAND) => Btand(
+            ram,
+            get(&RA, inst) as usize,
+            get(&RB, inst) as usize,
+            get(&RC, inst) as usize,
+            counter,
+        ),
         Some(Opcode::Halt) => u32::MAX, //End
         Some(Opcode::MapSeg) => ram.map(get(&RC, inst) as usize, get(&RB, inst) as usize, counter),
         Some(Opcode::UnMap) => ram.unmap(get(&RC, inst) as usize, counter),
