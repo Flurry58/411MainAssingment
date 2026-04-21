@@ -1,6 +1,6 @@
 use crate::input_output::output;
 use crate::input_output::{self, input};
-use crate::math_core;
+use crate::math_core::{Add, Btand, Div, Mult};
 use crate::memory::RamMem;
 use bitpack;
 
@@ -50,16 +50,8 @@ fn op(instruction: Umi) -> Option<Opcode> {
         bitpack::getu(instruction as u64, OP.width as u64, OP.lsb as u64).unwrap() as u32,
     )
 }
-// Run the program
-//
-// format!(
-//     "r{} := m[r{}][r{}];",
-//     get(&RA, inst),
-//     get(&RB, inst),
-//     get(&RC, inst)
-// )
-//
 
+// Run the program
 pub fn run_program(inst_list: Vec<u32>) {
     let mut ram = RamMem::setup();
     ram.generate_new_address_space(); // REQUIRED after setup
@@ -74,14 +66,15 @@ pub fn run_program(inst_list: Vec<u32>) {
 }
 
 // Returns program counter, this may change if jumped which is why it needs to return it
-// It may return -1 if it encountered a halt or unkown instruction which will instantly end the program
+// It may return U32::Max if it encountered a halt or unkown instruction which will instantly
+// end the program
 pub fn dis(inst: Umi, counter: u32, ram: &mut RamMem) -> u32 {
-    // println!(
+    // println!(CMov
     //     "counter: {} | inst: {:#034b} | op: {:?}",
     //     counter,
     //     inst,
     //     op(inst)
-    // );
+    // ); //DEBUG USAGE ONLY
     match op(inst) {
         Some(Opcode::CMov) => CMov(
             ram,
@@ -96,7 +89,13 @@ pub fn dis(inst: Umi, counter: u32, ram: &mut RamMem) -> u32 {
             get(&RC, inst) as usize,
             counter,
         ),
-        Some(Opcode::Add) => counter + 1,
+        Some(Opcode::Add) => Add(
+            ram,
+            get(&RA, inst) as usize,
+            get(&RB, inst) as usize,
+            get(&RC, inst) as usize,
+            counter,
+        ),
         Some(Opcode::Store) => ram.store(
             get(&RA, inst) as usize,
             get(&RB, inst) as usize,
